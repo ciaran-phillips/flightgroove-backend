@@ -26,7 +26,7 @@ function initialize() {
 function serve(config) {
 
     app.get('/origin/:query', function (req, res) {
-        api.locations(config.apiKey, req.params.query, function (err, data) {
+        api.locations(config.apiKey, req.params, function (err, data) {
             if (err) {
                 console.log('API Error: ' + err);
                 res.send('Something went wrong');
