@@ -2,13 +2,14 @@
 
 
 module.exports = {
-    locations: locations,
-    destinations: destinations
+    locations,
+    routes,
+    dates
 };
 
 
 var autosuggest = require('./actions/autosuggest.js'),
-    browseRoutes = require('./actions/browseRoutes.js');
+    browseCache = require('./actions/browseCache.js');
 
 
 function locations(apiKey, query, returnApiResult) {
@@ -16,6 +17,11 @@ function locations(apiKey, query, returnApiResult) {
 }
 
 
-function destinations(apiKey, params, returnApiResult) {
-    browseRoutes.browseRoutes(apiKey, params, returnApiResult);
+function routes(apiKey, params, returnApiResult) {
+    browseCache.browseRoutes(apiKey, params, returnApiResult);
+}
+
+
+function dates(apiKey, params, returnApiResult) {
+    browseCache.browseDates(apiKey, params, returnApiResult);
 }

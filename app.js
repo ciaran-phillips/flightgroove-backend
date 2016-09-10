@@ -31,6 +31,7 @@ function serve(config) {
                 console.log('API Error: ' + err);
                 res.send('Something went wrong');
             } else {
+                res.header('Access-Control-Allow-Origin', '*');
                 res.send(data);
             }
         });
@@ -38,11 +39,24 @@ function serve(config) {
     });
 
     app.get('/routes/:origin/:destination/:outboundDate/:inboundDate', function (req, res) {
-        api.destinations(config.apiKey, req.params, function (err, data) {
+        api.routes(config.apiKey, req.params, function (err, data) {
             if (err) {
                 console.log("API Error");
                 res.send('Something went wrong');
             } else {
+                res.header('Access-Control-Allow-Origin', '*');
+                res.send(data);
+            }
+        });
+    });
+
+    app.get('/dates/:origin/:destination/:outboundDate/:inboundDate', function (req, res) {
+        api.dates(config.apiKey, req.params, function (err, data) {
+            if (err) {
+                console.log('API Error' + err);
+                res.send('something went wrong');
+            } else {
+                res.header('Access-Control-Allow-Origin', '*');
                 res.send(data);
             }
         });

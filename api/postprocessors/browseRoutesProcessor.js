@@ -28,24 +28,29 @@ function getMapFunction(flightData, airportList) {
     var originId = flightData.Quotes[0].OutboundLeg.OriginId;
     var origin = places[originId];
     return function (value, index, arr) {
-        var destination = places[value.OutboundLeg.DestinationId];
+        let id = value.OutboundLeg.DestinationId;
+        var destination = places[id];
+        if (typeof destination === 'undefined') {
+            console.log('destination nout found: ' + id);
+        }
         return {
-            "price": value.MinPrice,
-            "DepartureDate": value.OutboundLeg.DepartureDate,
+            "priceCredits": value.MinPrice,
+            "priceDisplay": value.MinPrice.toString(),
+            "departureDate": value.OutboundLeg.DepartureDate,
             "returnDate": value.InboundLeg.DepartureDate,
             "origin": {
                 "name": origin.CityName,
                 "code": origin.IataCode,
                 "country": origin.CountryName,
-                "latitude": origin.Latitude,
-                "longitude": origin.Longitude
+                "latitude": parseFloat(origin.Latitude),
+                "longitude": parseFloat(origin.Longitude)
             },
             "destination": {
                 "name": destination.CityName,
                 "code": destination.IataCode,
                 "country": destination.CountryName,
-                "latitude": destination.Latitude,
-                "longitude": destination.Longitude
+                "latitude": parseFloat(destination.Latitude),
+                "longitude": parseFloat(destination.Longitude)
             }
         }
     }
@@ -55,9 +60,21 @@ function getMapFunction(flightData, airportList) {
 function getPlacesById(flightData, airportList) {
     var placesById = {};
     var len = flightData.Places.length;
+    console.log('length is ' + len);
     for (let i = 0; i < len; i++) {
         let placeId = flightData.Places[i].PlaceId;
         let placeIataCode = flightData.Places[i].IataCode;
+        let isValidAirport = typeof placeIataCode !== 'undefined';
+        let inOurDatabase = (placeIataCode in airportList)
+
+        if (!isValidAirport) {
+            console.log('Not a valid airport - Place ID: ' + placeId);
+            continue;
+        }
+        if (!inOurDatabase) {
+            console.log('Airport not found in our location db. IATA Code: ' + placeIataCode);
+            continue;
+        }
         placesById[placeId] = flightData.Places[i];
         placesById[placeId].Latitude = airportList[placeIataCode].latitude;
         placesById[placeId].Longitude = airportList[placeIataCode].longitude;

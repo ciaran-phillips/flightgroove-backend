@@ -18,8 +18,8 @@ module.exports = {
  * @param string query
  * @param callable returnApiResult
  */
-function autosuggest(params, returnApiResult) {
+function autosuggest(apiKey, params, returnApiResult) {
     const service = 'autosuggest';
-    const url = basePath + '?query=' + query + '&apiKey=' + apiKey;
+    const url = '?query=' + params.query + '&apiKey=' + apiKey;
     request.request('autosuggest', url, returnApiResult);
 }
