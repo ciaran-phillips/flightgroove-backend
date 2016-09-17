@@ -62,7 +62,20 @@ function serve(config) {
         });
     });
 
+    
+    app.get('/livepricing/start', function (req, res) {
+        api.startLivePricing(config.apiKey, req.query, function (err, data) {
+            if (err) {
+                console.log('API Error' + err);
+                res.send('something went wrong');
+            } else {
+                res.header('Access-Control-Allow-Origin', '*');
+                res.send(data);
+            }
+        });
+    });
+
     app.listen(4000, '0.0.0.0', function () {
         console.log('App listening on port 4000');
-    })
+    });
 }
