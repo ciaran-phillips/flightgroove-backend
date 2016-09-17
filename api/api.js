@@ -5,13 +5,15 @@ module.exports = {
     locations,
     routes,
     dates,
-    startLivePricing
+    startLivePricing,
+    pollLivePricing
 };
 
 
 var autosuggest = require('./actions/autosuggest.js'),
     browseCache = require('./actions/browseCache.js'),
-    startPricingAction = require('./actions/startPricingAction.js');
+    startPricingAction = require('./actions/startPricingAction.js'),
+    pollPricingAction = require('./actions/pollPricingAction.js');
 
 
 function locations(apiKey, query, returnApiResult) {
@@ -32,4 +34,10 @@ function startLivePricing(apiKey, params, returnApiResult) {
     params.apiKey = apiKey;
     let action = new startPricingAction();
     action.startLivePricing(params, returnApiResult);
-}
+}
+
+function pollLivePricing(apiKey, pollingUrl, params, returnApiResult) {
+    params.apiKey = apiKey;
+    let action = new pollPricingAction();
+    action.pollLivePricing(pollingUrl, params, returnApiResult);    
+}
