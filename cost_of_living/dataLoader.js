@@ -2,13 +2,14 @@ module.exports = {
     getCostOfLivingData
 }
 
-const COST_OF_LIVING_FILE = './costsByCityId.json';
+const fs = require('fs');
 
+const COST_OF_LIVING_FILE = '/costsByCityId.json';
 let costOfLivingData = null;
 
 
 function getCostOfLivingData(callback) {
-    if (airportData != null) {
+    if (costOfLivingData != null) {
         loadFromCache(callback);
     } else {
         loadFromFile(callback);

@@ -88,6 +88,24 @@ function serve(config) {
         });
     });
 
+
+    app.get('/costofliving/:airportId', function(req, res) {
+        const CostOfLivingService = require('./cost_of_living/costOfLivingService.js');
+        const service = new CostOfLivingService();
+        service.getDataForAirport(req.params.airportId, function(err, data) {
+            if (err) {
+                console.log(err);
+                res.send('something went wrong');
+                return;
+            }
+
+            res.header('Access-Control-Allow-Origin', '*');
+            res.send({
+                costOfLiving: data
+            });
+        });
+    });
+
     app.listen(4000, '0.0.0.0', function () {
         console.log('App listening on port 4000');
     });
