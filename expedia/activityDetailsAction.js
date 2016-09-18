@@ -25,10 +25,10 @@ module.exports = class GetActivityDetailsAction {
     }
 
     _validParams(params) {
-        const validParams = ["apiKey", "activityId", "startDate", "endDate"];
+        const validParams = ["apikey", "activityId", "startDate", "endDate"];
 
         // activityId and apiKey are always required
-        if (!params.hasOwnProperty('activityId') || !params.hasOwnProperty('apiKey')) {
+        if (!params.hasOwnProperty('activityId') || !params.hasOwnProperty('apikey')) {
             return false;
         }
 

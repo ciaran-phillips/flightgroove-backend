@@ -1,5 +1,5 @@
 const request = require('request'),
-    ActivitiesProcessor = require('./ActivitiesProcessor.js')
+    GetActivitiesProcessor = require('./getActivitiesProcessor.js')
 
 module.exports = class getActivitiesAction {
     getActivities(params, callback) {
@@ -11,6 +11,7 @@ module.exports = class getActivitiesAction {
 
         if (!this._validParams(params)) {
             callback(new Error('Incorrect params passed to getThingsToDo: ' + params));
+            return;
         }
 
         request.get(options, function(err, response, body) {
@@ -18,17 +19,17 @@ module.exports = class getActivitiesAction {
                 callback(err);
                 return;
             }
-            const postProcessor = new ActivitiesProcessor();
+            const postProcessor = new GetActivitiesProcessor();
             const data = postProcessor.process(JSON.parse(body));
             callback(null, data);
         });
     }
 
     _validParams(params) {
-        const validParams = ["apiKey", "location", "startDate", "endDate"];
+        const validParams = ["apikey", "location", "startDate", "endDate"];
 
         // location and apiKey are always required
-        if (!params.hasOwnProperty('location') || !params.hasOwnProperty('apiKey')) {
+        if (!params.hasOwnProperty('location') || !params.hasOwnProperty('apikey')) {
             return false;
         }
 
