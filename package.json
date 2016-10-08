@@ -11,6 +11,7 @@
   "devDependencies": {
     "express": "^4.14.0",
     "mocha": "^3.0.2",
+    "moment": "^2.15.1",
     "ramda": "^0.22.1",
     "request": "^2.74.0",
     "xml2js": "^0.4.17"

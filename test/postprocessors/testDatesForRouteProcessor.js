@@ -241,97 +241,127 @@ describe('DatesForRouteProcessor', function () {
                     ]
                 },
                 expectedResult: {
-                    grid : {
-                        columnHeaders : [
+                    
+                    columnHeaders : [
+                        null,
+                        "Oct 01",
+                        "Oct 02",
+                        "Oct 03",
+                        "Oct 04"
+                    ],
+                    rows : [{
+                        rowHeader : "Nov 01",
+                        cells : [
+                            {
+                                priceCredits: 385,
+                                priceDisplay: "385",
+                                outboundDate: "2016-10-01",
+                                inboundDate: "2016-11-01"
+                            },
+                            {
+                                priceCredits: 430,
+                                priceDisplay: "430",
+                                outboundDate: "2016-10-02",
+                                inboundDate: "2016-11-01"
+                            },
+                            {
+                                priceCredits: 416,
+                                priceDisplay: "416",
+                                outboundDate: "2016-10-03",
+                                inboundDate: "2016-11-01"
+                            },
+                            {
+                                priceCredits: 415,
+                                priceDisplay: "415",
+                                outboundDate: "2016-10-04",
+                                inboundDate: "2016-11-01"
+                            }
+                        ]
+                    },
+                    {
+                        rowHeader : "Nov 02",
+                        cells : [
+                            {
+                                priceCredits: 447,
+                                priceDisplay: "447",
+                                outboundDate: "2016-10-01",
+                                inboundDate: "2016-11-02"
+                            },
+                            {
+                                priceCredits: 430,
+                                priceDisplay: "430",
+                                outboundDate: "2016-10-02",
+                                inboundDate: "2016-11-02"
+                            },
+                            {
+                                priceCredits: 339,
+                                priceDisplay: "339",
+                                outboundDate: "2016-10-03",
+                                inboundDate: "2016-11-02"
+                            },
+                            {
+                                priceCredits: 430,
+                                priceDisplay: "430",
+                                outboundDate: "2016-10-04",
+                                inboundDate: "2016-11-02"
+                            }
+                        ]
+                    },
+                    {
+                        rowHeader : "Nov 03",
+                        cells : [
+                            {
+                                priceCredits: 434,
+                                priceDisplay: "434",
+                                outboundDate: "2016-10-01",
+                                inboundDate: "2016-11-03"
+                            },
                             null,
-                            "2016-10-01",
-                            "2016-10-02",
-                            "2016-10-03",
-                            "2016-10-04"
-                        ],
-                        rows : [{
-                            rowHeader : "2016-11-01",
-                            cells : [
-                                {
-                                    priceCredits: 385,
-                                    priceDisplay: "385"
-                                },
-                                {
-                                    priceCredits: 430,
-                                    priceDisplay: "430"
-                                },
-                                {
-                                    priceCredits: 416,
-                                    priceDisplay: "416"
-                                },
-                                {
-                                    priceCredits: 415,
-                                    priceDisplay: "415"
-                                }
-                            ]
-                        },
-                        {
-                            rowHeader : "2016-11-02",
-                            cells : [
-                                {
-                                    priceCredits: 447,
-                                    priceDisplay: "447"
-                                },
-                                {
-                                    priceCredits: 430,
-                                    priceDisplay: "430"
-                                },
-                                {
-                                    priceCredits: 339,
-                                    priceDisplay: "339"
-                                },
-                                {
-                                    priceCredits: 430,
-                                    priceDisplay: "430"
-                                }
-                            ]
-                        },
-                        {
-                            rowHeader : "2016-11-03",
-                            cells : [
-                                {
-                                    priceCredits: 434,
-                                    priceDisplay: "434"
-                                },
-                                null,
-                                {
-                                    priceCredits: 378,
-                                    priceDisplay: "378"
-                                },
-                                {
-                                    priceCredits: 434,
-                                    priceDisplay: "434"
-                                }
-                            ]
-                        },
-                        {
-                            rowHeader : "2016-11-04",
-                            cells : [
-                                {
-                                    priceCredits: 427,
-                                    priceDisplay: "427"
-                                },
-                                {
-                                    priceCredits: 435,
-                                    priceDisplay: "435"
-                                },
-                                {
-                                    priceCredits: 429,
-                                    priceDisplay: "429"
-                                },
-                                {
-                                    priceCredits: 424,
-                                    priceDisplay: "424"
-                                }
-                            ]
-                        }]
-                    }
+                            {
+                                priceCredits: 378,
+                                priceDisplay: "378",
+                                outboundDate: "2016-10-03",
+                                inboundDate: "2016-11-03"
+                            },
+                            {
+                                priceCredits: 434,
+                                priceDisplay: "434",
+                                outboundDate: "2016-10-04",
+                                inboundDate: "2016-11-03"
+                            }
+                        ]
+                    },
+                    {
+                        rowHeader : "Nov 04",
+                        cells : [
+                            {
+                                priceCredits: 427,
+                                priceDisplay: "427",
+                                outboundDate: "2016-10-01",
+                                inboundDate: "2016-11-04"
+                            },
+                            {
+                                priceCredits: 435,
+                                priceDisplay: "435",
+                                outboundDate: "2016-10-02",
+                                inboundDate: "2016-11-04"
+                            },
+                            {
+                                priceCredits: 429,
+                                priceDisplay: "429",
+                                outboundDate: "2016-10-03",
+                                inboundDate: "2016-11-04"
+                            },
+                            {
+                                priceCredits: 424,
+                                priceDisplay: "424",
+                                outboundDate: "2016-10-04",
+                                inboundDate: "2016-11-04"
+                            }
+                        ]
+                    }]
                 }
+            
             };
         }
     });

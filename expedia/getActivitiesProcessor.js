@@ -17,7 +17,7 @@ module.exports = class GetActivitiesProcessor {
                     id: activity.id,
                     title: activity.title,
                     imageUrl: activity.imageUrl,
-                    fromPrice: activity.fromPrice,
+                    fromPrice: activity.fromPrice.replace('$', '€'),
                     fromPriceLabel: activity.fromPriceLabel,
                     duration: activity.duration,
                     supplierName: activity.supplierName

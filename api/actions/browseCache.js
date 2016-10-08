@@ -5,12 +5,14 @@ const http = require('http'),
     request = require('../helpers/request.js'),
     airportsDataSource = require('../../data/dataAccess.js'),
     browseRoutesProcessor = require('../postprocessors/browseRoutesProcessor.js'),
-    browseDatesProcessor = require('../postprocessors/browseDatesProcessor.js');
+    browseDatesProcessor = require('../postprocessors/browseDatesProcessor.js'),
+    routesCombinator = require('../postprocessors/routesCombinator.js');
 
 
 module.exports = {
     browseRoutes,
-    browseDates
+    browseDates,
+    browseRoutesMultipleOrigins
 };
 
 
@@ -49,6 +51,55 @@ function browseDates(apiKey, params, returnApiResult) {
 function browseCache(service, apiKey, params, postProcessor, returnApiResult) {
     request.request(service, buildPath(params, apiKey), function (err, data) {
         postProcess(data, postProcessor, returnApiResult);
+    });
+}
+
+
+function browseRoutesMultipleOrigins(service, apiKey, params, postProcessor, returnApiResult) {
+
+    let paramsOriginOne = {
+        origin: params.origin,
+        destination : params.destination,
+        outboundDate : params.outboundDate,
+        inboundDate : params.inboundDate
+    };
+
+    let paramsOriginTwo = {
+        origin: params.originTwo,
+        destination : params.destination,
+        outboundDate : params.outboundDate,
+        inboundDate : params.inboundDate
+    };
+
+    var routesOne, routesTwo;
+    request.request(service, buildPath(paramsOriginOne, apiKey), function (err, data) {
+        postProcess(data, postProcessor, function(err, data) {
+            if (err) {
+                returnApiResult(err);
+                return;
+            }
+            routesOne = data;
+            if (routesOne && routesTwo) {
+                combineRoutes(routesOne, routesTwo, function(err, data) {
+                    returnApiResult(err, data)
+                });
+            }
+        });
+    });
+    
+    request.request(service, buildPath(paramsOriginTwo, apiKey), function (err, data) {
+        postProcess(data, postProcessor, function(err, data) {
+            if (err) {
+                returnApiResult(err);
+                return;
+            }
+            routesTwo = data;
+            if (routesOne && routesTwo) {
+                combineRoutes(routesOne, routesTwo, function(err, data) {
+                    returnApiResult(err, data)
+                });
+            }
+        });
     });
 }
 

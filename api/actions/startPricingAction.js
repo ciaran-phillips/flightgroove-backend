@@ -1,17 +1,21 @@
 "use strict";
 
-const http = require('http'),
-    request = require('../helpers/request.js');
+const request = require('request');
 
 module.exports = class StartPricingAction {
     startLivePricing(params, returnApiResult) {
-        const service = 'pricing/v1.0';
-        const headers = {
-            "Accept" : 'application/json',
-            "Content-Type" : 'application/x-www-form-urlencoded'
-        };
-        const method = 'POST';
+        this._postRequest(params, returnApiResult);
+    }
 
-        request.postRequest(service, params, returnApiResult, headers);
+    
+    _postRequest(params, returnResult) {
+        const host = 'http://partners.api.skyscanner.net/apiservices/pricing/v1.0';
+
+        request.post(host, { form : params }, function(err, response, body) {
+            
+            returnResult(err, {
+                location: response.headers['location']
+            });
+        })
     }
 }

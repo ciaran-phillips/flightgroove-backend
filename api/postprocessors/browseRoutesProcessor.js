@@ -33,14 +33,17 @@ function getMapFunction(flightData, airportList) {
         if (typeof destination === 'undefined') {
             console.log('destination nout found: ' + id);
         }
+        const departureDate = value.OutboundLeg.DepartureDate.slice(0, 10);
+        const returnDate = value.InboundLeg.DepartureDate.slice(0, 10);
         return {
             "priceCredits": value.MinPrice,
-            "priceDisplay": value.MinPrice.toString(),
-            "departureDate": value.OutboundLeg.DepartureDate,
-            "returnDate": value.InboundLeg.DepartureDate,
+            "priceDisplay": "€" + value.MinPrice.toString(),
+            "departureDate": departureDate,
+            "returnDate": returnDate,
             "origin": {
                 "name": origin.CityName,
                 "code": origin.IataCode,
+                "cityId": origin.CityId,
                 "country": origin.CountryName,
                 "latitude": parseFloat(origin.Latitude),
                 "longitude": parseFloat(origin.Longitude)
@@ -48,6 +51,7 @@ function getMapFunction(flightData, airportList) {
             "destination": {
                 "name": destination.CityName,
                 "code": destination.IataCode,
+                "cityId": destination.CityId,
                 "country": destination.CountryName,
                 "latitude": parseFloat(destination.Latitude),
                 "longitude": parseFloat(destination.Longitude)

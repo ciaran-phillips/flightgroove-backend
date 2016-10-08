@@ -4,7 +4,9 @@
 module.exports = {
     locations,
     routes,
+    routesMultipleOrigins,
     dates,
+    datesForRoute,
     startLivePricing,
     pollLivePricing
 };
@@ -25,9 +27,22 @@ function routes(apiKey, params, returnApiResult) {
     browseCache.browseRoutes(apiKey, params, returnApiResult);
 }
 
+function routesMultipleOrigins(apiKey, params, returnApiResult) {
+    browseCache.browseRoutesMultipleOrigins(apiKey, params, returnApiResult);
+}
+
 
 function dates(apiKey, params, returnApiResult) {
     browseCache.browseDates(apiKey, params, returnApiResult);
+}
+
+
+function datesForRoute(apiKey, params, returnApiResult) {
+    const DatesForRouteAction = require('./actions/datesForRouteAction.js');
+    const action = new DatesForRouteAction();
+
+    params.apiKey = apiKey;
+    action.datesForRoute(params, returnApiResult);
 }
 
 function startLivePricing(apiKey, params, returnApiResult) {
