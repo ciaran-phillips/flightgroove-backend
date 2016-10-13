@@ -10,8 +10,17 @@ var fs = require('fs');
 
 
 function processDestinations(data, airportList) {
+
+    if (typeof data.Quotes === 'undefined') {
+        console.log(data);
+        return [];
+    }
+    if (data.Quotes.length === 0) {
+        return [];
+    }
     var destinationList = sortByCheapest(data.Quotes);
     var destinationList = destinationList.map(getMapFunction(data, airportList));
+    destinationList = destinationList.filter((elem) => elem !== null);
     return destinationList;
 }
 
@@ -32,6 +41,7 @@ function getMapFunction(flightData, airportList) {
         var destination = places[id];
         if (typeof destination === 'undefined') {
             console.log('destination nout found: ' + id);
+            return null;
         }
         const departureDate = value.OutboundLeg.DepartureDate.slice(0, 10);
         const returnDate = value.InboundLeg.DepartureDate.slice(0, 10);
