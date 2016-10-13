@@ -8,6 +8,9 @@ module.exports = class GetActivitiesProcessor {
     }
 
     _processActivities(activities) {
+        if (typeof activities === 'undefined' || !Array.isArray(activities)) {
+            return []
+        }
         return activities
             .filter((activity) => {
                 return !this._isTransfer(activity)
