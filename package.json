@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive ./test"
+    "test": "./node_modules/mocha/bin/mocha --recursive ./test",
+    "test-debug": "./node_modules/mocha/bin/mocha --debug-brk --recursive ./test"
   },
   "author": "",
   "license": "ISC",
