@@ -9,6 +9,11 @@ module.exports = class LivePricingProcessor {
      * everything to lowerCamelCase'
      */
     transform(response) {
+        if (typeof response.Itineraries !== 'undefined' && 
+                Array.isArray(response.Itineraries)) {
+
+            response.Itineraries = response.Itineraries.slice(0, 20);
+        }
         return this._traverse(response);
     }
 
