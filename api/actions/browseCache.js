@@ -55,8 +55,8 @@ function browseCache(service, apiKey, params, postProcessor, returnApiResult) {
 }
 
 
-function browseRoutesMultipleOrigins(service, apiKey, params, postProcessor, returnApiResult) {
-
+function browseRoutesMultipleOrigins(apiKey, params, returnApiResult) {
+    let postProcessor = browseRoutesProcessor.processDestinations;
     let paramsOriginOne = {
         origin: params.origin,
         destination : params.destination,
@@ -72,7 +72,7 @@ function browseRoutesMultipleOrigins(service, apiKey, params, postProcessor, ret
     };
 
     var routesOne, routesTwo;
-    request.request(service, buildPath(paramsOriginOne, apiKey), function (err, data) {
+    request.request('browseroutes', buildPath(paramsOriginOne, apiKey), function (err, data) {
         postProcess(data, postProcessor, function(err, data) {
             if (err) {
                 returnApiResult(err);
@@ -80,14 +80,14 @@ function browseRoutesMultipleOrigins(service, apiKey, params, postProcessor, ret
             }
             routesOne = data;
             if (routesOne && routesTwo) {
-                combineRoutes(routesOne, routesTwo, function(err, data) {
+                routesCombinator.combineRoutes(routesOne, routesTwo, function(err, data) {
                     returnApiResult(err, data)
                 });
             }
         });
     });
     
-    request.request(service, buildPath(paramsOriginTwo, apiKey), function (err, data) {
+    request.request('browseroutes', buildPath(paramsOriginTwo, apiKey), function (err, data) {
         postProcess(data, postProcessor, function(err, data) {
             if (err) {
                 returnApiResult(err);
@@ -95,7 +95,7 @@ function browseRoutesMultipleOrigins(service, apiKey, params, postProcessor, ret
             }
             routesTwo = data;
             if (routesOne && routesTwo) {
-                combineRoutes(routesOne, routesTwo, function(err, data) {
+                routesCombinator.combineRoutes(routesOne, routesTwo, function(err, data) {
                     returnApiResult(err, data)
                 });
             }

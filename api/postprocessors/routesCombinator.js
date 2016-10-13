@@ -2,72 +2,76 @@
 
 
 module.exports = {
-    processRoutes
+    combineRoutes
 }
-
 
 var fs = require('fs');
 
 
-function processRoutes(routesOne, routesTwo) {
-    routesOne = sortByDestination(routesOne);
-    routesTwo = sortByDestination(routesTwo);
-    let indexedRoutesTwo;
+function combineRoutes(routesOne, routesTwo, callback) {
+    routesOne = routesOne.sort(destinationSort);
+    routesTwo = routesTwo.sort(destinationSort);
+    let indexedRoutesTwo = [];
     let newRoutes = [];
     for (let i = 0; i < routesTwo.length; i++) {
         let code = routesTwo[i].destination.code;
-        indexedRoutesTwo[code] = [];
+        if (!(code in indexedRoutesTwo)) {
+            indexedRoutesTwo[code] = [];
+        } 
         indexedRoutesTwo[code].push(routesTwo[i]);
     }
 
     for (let i = 0; i < routesOne.length; i++) {
         let route = routesOne[i];
         let destination = route.destination.code;
-        let potentialMatches = indexedRoutesTwo[destination];
+        let potentialMatches = [];
+        if (destination in indexedRoutesTwo) {
+            potentialMatches = indexedRoutesTwo[destination];
+        }
         
         for (let j = 0; j < potentialMatches.length; j++) {
             if (routesMatch(route, potentialMatches[j])) {
-                let combined = newRoute(route, route.priceCredits + potentialMatches[j].priceCredits);
-                newRoutes.push();
+                const secondOrigin = potentialMatches[j].origin;
+                let combined = newRoute(route, route.priceCredits + potentialMatches[j].priceCredits, secondOrigin);
+                newRoutes.push(combined);
             }
         }
     }
 
-    return newRoutes;
+    callback(false, newRoutes.sort(destinationAndDateSort));
 }
 
-function newRoute(route, price) {
+function newRoute(route, price, secondOrigin) {
     return {
         "priceCredits": price,
         "priceDisplay": price.toString(),
         "departureDate": route.departureDate,
         "returnDate": route.returnDate,
-        "origin": {
-            "name": route.origin.name,
-            "code": route.origin.code,
-            "cityId": route.origin.cityId,
-            "country": route.origin.country,
-            "latitude": route.origin.latitude,
-            "longitude": route.origin.longitude
-        },
-        "destination": {
-            "name": route.destination.name,
-            "code": route.destination.code,
-            "cityId": route.destination.cityId,
-            "country": route.destination.country,
-            "latitude": route.destination.latitude,
-            "longitude": route.destination.longitude
-        }
+        "origin": route.origin,
+        "secondOrigin": secondOrigin,
+        "destination": route.destination
     };
 }
+
 function routesMatch(routeOne, routeTwo) {
     return (routeOne.destination.code == routeTwo.destination.code)
-        && (routeOne.departureDate == routeTwo.departureDate)
-        && (routeOne.returnDate == routeTwo.returnDate);
+        && (routeOne.departureDate.slice(0, 10) == routeTwo.departureDate.slice(0, 10))
+        && (routeOne.returnDate.slice(0, 10) == routeTwo.returnDate.slice(0, 10));
 }
 
-function sortByDestination(routes) {
-    return routes.sort((a, b) => {
-        a.destination.code - b.destination.code;
-    });
+function destinationSort(a, b) {
+    if (a.destination.code < b.destination.code) return -1;
+    if (a.destination.code > b.destination.code) return 1;
+    return 0;
+}
+
+function destinationAndDateSort(a, b) {
+    let val = destinationSort(a, b);
+    if (val !== 0) {
+        return val;
+    }
+
+    if (a.priceCredits < b.priceCredits) return -1;
+    if (a.priceCredits > b.priceCredits) return 1;
+    return 0;
 }
